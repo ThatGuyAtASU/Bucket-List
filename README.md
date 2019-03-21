@@ -6,4 +6,4 @@ Description: An app where you can create a bucket list, manage said list,  searc
 
 API's used: Pexels
 
-Rough breakdown of tasks: Backend - Guy; 
+Rough breakdown of tasks: Backend - Guy; React - Mustafa; Node - Natalie;
