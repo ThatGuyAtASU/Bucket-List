@@ -8,6 +8,18 @@ var bucketlist = [
     }
 ];
 
+var recentitems = [{
+    routeName: 'recentitems',
+    name: "user searches",
+
+}];
+
+var useritems = [{
+    routeName: 'useritems',
+    name: "recent user items",
+}];
+
+
 app.get("/api/bucketlist", function (req, res) {
     return res.json(bucketlist);
 });
