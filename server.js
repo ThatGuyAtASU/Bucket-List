@@ -11,7 +11,7 @@ var db = require("./models");
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// Serve up static assets (usually on heroku)
+// Serve up static assets (usually on heroku)s
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
@@ -22,13 +22,10 @@ mongoose.connect("mongodb://localhost/bucketlistdb", { useNewUrlParser: true});
 
 
 // Define API routes here
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 
 app.get('/', function(req,res) {
   res.sendFile(path.join(__dirname + ))
-})
+});
 
 app.get("/api/",function(req,res) {
   db.Item.findAll()
@@ -36,11 +33,7 @@ app.get("/api/",function(req,res) {
 
 app.get("", function(req,res) {
   db.Item.findOne()
-=======
-<<<<<<< HEAD
-app.use(require("./routes"));
-=======
->>>>>>> 379bc9a5c864899d3a094438facdde6cc8154f13
+
 app.post("/submit", function(req, res) {
   User.create(req.body)
   .then(function(dbUser) {
@@ -49,7 +42,7 @@ app.post("/submit", function(req, res) {
   .catch(function(err) {
     res.json(err);
   });
->>>>>>> addc6c3e6b73d6bee8a8cfda294bfd7c7bcd1824
+
 });
 
 app.post("", function(req,res) {
