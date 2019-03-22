@@ -22,6 +22,7 @@ mongoose.connect("mongodb://localhost/bucketlistdb", { useNewUrlParser: true});
 
 
 // Define API routes here
+<<<<<<< HEAD
 
 app.get('/', function(req,res) {
   res.sendFile(path.join(__dirname + ))
@@ -33,7 +34,21 @@ app.get("/api/",function(req,res) {
 
 app.get("", function(req,res) {
   db.Item.findOne()
+=======
+<<<<<<< HEAD
+app.use(require("./routes"));
+=======
+app.post("/submit", function(req, res) {
+  User.create(req.body)
+  .then(function(dbUser) {
+    res.json(dbUser) 
+  })
+  .catch(function(err) {
+    res.json(err);
+  });
+>>>>>>> addc6c3e6b73d6bee8a8cfda294bfd7c7bcd1824
 });
+>>>>>>> 06adaccbc4629f326c74469debb4585214b6fe03
 
 app.post("", function(req,res) {
   db
