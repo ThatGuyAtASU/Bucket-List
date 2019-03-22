@@ -20,9 +20,6 @@ mongoose.connect("mongodb://localhost/bucketlistdb", { useNewUrlParser: true});
 
 
 // Define API routes here
-<<<<<<< HEAD
-app.use(require("./routes"));
-=======
 app.post("/submit", function(req, res) {
   User.create(req.body)
   .then(function(dbUser) {
@@ -32,7 +29,6 @@ app.post("/submit", function(req, res) {
     res.json(err);
   });
 });
->>>>>>> 06adaccbc4629f326c74469debb4585214b6fe03
 
 // Send every other request to the React app
 // Define any API routes before this runs
