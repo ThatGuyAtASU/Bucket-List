@@ -1,5 +1,6 @@
 import React from "react";
 import CardBody from './itemCard';
+import PostItem from "./postItem";
 
 class UserInfo extends React.Component {
     state = {
@@ -21,17 +22,17 @@ class UserInfo extends React.Component {
 
     render() {
         return <>
+            <PostItem />
 
             <div className="container-fluid">
-                <div className="jumbotron text-center">
+                <div className="jumbotron bg-transparent text-center">
                     <img style={{ width: "18rem" }} src={this.state.image} alt={this.state.name} className="rounded-circle" />
                     <br />
                     <button className="btn btn-primary btn-lg mt-3" id="edit-profile">Upload Profile Picture</button>
                     <h1 className="display-4">Hello, {this.state.name}!</h1>
 
-                    <hr className="my-4" />
 
-                    <a className="btn btn-outline-success btn-lg" href="/newitem" role="button">Post a Bucketlist Item</a>
+                    <button className="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#postItemBtn">Post a Bucketlist Item</button>
 
                     <button className="btn btn-danger ml-3 btn-lg" id="delete-profile">Delete Account</button>
                 </div>
