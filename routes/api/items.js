@@ -11,9 +11,12 @@ router
   .get(itemController.findById)
   .put(itemController.update)
   .delete(itemController.remove);
+<<<<<<< HEAD
 
 module.exports = router;
 Collapse
 
 
+=======
+>>>>>>> 47d221b03cb394b293566025f278e5609646ee6e
 
