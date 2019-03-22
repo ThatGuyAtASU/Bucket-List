@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+const path = require("path");
+const router = require("express").Router();
+const apiRoutes = require("./api");
+
+//API Routes
+router.use("/api", apiRoutes);
+
+router.use(function(req,res){
+    res.sendFile(path.join(__dirname, "../client/build/index.htmls"));
+});
+
+module.exports = router;
+=======
 const express = require("express");
 const app = express.Router();
 
@@ -94,3 +108,4 @@ app.post("/api/createuser", function (req, res) {
 });
 
 module.exports = app;
+>>>>>>> addc6c3e6b73d6bee8a8cfda294bfd7c7bcd1824
