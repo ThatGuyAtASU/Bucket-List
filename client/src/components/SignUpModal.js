@@ -37,7 +37,7 @@ class SignUp extends React.Component {
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-body">
-                        <h4 className="text-center"><i class="fas fa-user-plus"></i> Sign Up</h4>
+                        <h4 className="text-center"><i className="fas fa-user-plus"></i> Sign Up</h4>
                         <hr />
                         <form>
                             <div class="form-group">
@@ -74,7 +74,7 @@ class SignUp extends React.Component {
                                 type="password" class="form-control" id="confirmPass" placeholder="Confirm Password" />
                             </div>
 
-                            <button onClick={this.handleFormSubmit} type="submit" class="btn btn-primary col-12"><i class="fas fa-user-plus"></i> Sign Up</button>
+                            <button onClick={this.handleFormSubmit} type="submit" class="btn btn-primary col-12"><i className="fas fa-user-plus"></i> Sign Up</button>
                         </form>
                         <p className="text-center">Already have an account? <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#loginBtn">Log In</a></p>
                     </div>
