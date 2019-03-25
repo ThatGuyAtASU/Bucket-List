@@ -22,7 +22,25 @@ class LogIn extends React.Component {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
-        axios.post("/api/regis")
+        if(this.state.email && this.state.password){
+            let userInfo= {
+                email: this.state.email,
+                password: this.state.password
+
+            }
+
+            axios.post("/api/user/login", userInfo).then(data=>{
+                console.log(data);
+                window.location.replace("/user");
+                this.setState({
+                    email: "",
+                    password: ""
+                })
+            }).catch(err=>console.log(err));
+
+        }
+
+        
     
         // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
         alert(`Hello ${this.state.email} ${this.state.password}`);
