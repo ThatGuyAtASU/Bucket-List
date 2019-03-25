@@ -23,18 +23,11 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-<<<<<<< HEAD
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.4.19",
-    "passport": "^0.4.0",
-    "pexels-api-wrapper": "^1.1.1"
-=======
   
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.19",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0"
->>>>>>> d62513267dfda4a02221f612951b6448896842ea
   },
   "repository": {
     "type": "git",
