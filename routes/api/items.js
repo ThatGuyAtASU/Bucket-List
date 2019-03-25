@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+
+const Item = require("../../models/Item");
 // GET api/items/test
 // Tests items route
 // Public
