@@ -19,11 +19,15 @@ class RecentItems extends React.Component{
 
     }
 
+    handleLikeBtn = item => {
+        axios.put("/api/items/updatelike").then(data=> console.log(data)).catch(err=> console.log(err));
+    }
+
 
     render(){
         return <div className="container-fluid">
         <div className="row">
-        {this.state.recentItems.map(item=> <CardBody {...item} />)}      
+        {this.state.recentItems.map(item=> <CardBody handleLikeBtn={this.handleLikeBtn} {...item} />)}      
         </div>
         </div>
     }
