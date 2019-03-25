@@ -96,6 +96,27 @@ router.get(
   }
 );
 
+//  PUT api/user/add
+//  Adds to Users saved Bucket List Items
+//  Private
+router.get(
+  "/add",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $push: {
+          items: req.body.id
+        }
+      },
+      { new: true }
+    ).then(dbItems => {
+      res.json(dbItems);
+    });
+  }
+);
+
 //  GET api/user/savedItems
 //  Returns users saved Bucket List Items
 //  Private
@@ -135,5 +156,15 @@ router.delete(
     res.send("Delete route hit");
   }
 );
+
+router.get("/populatedUser", function(req, res) {
+  console.log("populatedUser")
+  User
+  .find({email: req.user.email})
+  .populate("items")
+  .then(function(dbUser) {
+    res.json(dbUser);
+  });
+});
 
 module.exports = router;
