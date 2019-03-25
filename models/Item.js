@@ -8,7 +8,7 @@ var ItemSchema = new Schema({
   title: String,
   image: String,
   isDone: { type: Boolean, default: false },
-  likes: Number
+  likes: { type: Number, default: 0}
 });
 
 var Item = mongoose.model("Item", ItemSchema);
