@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-
+//Load Item model
 const Item = require("../../models/Item");
+
 // GET api/items/test
 // Tests items route
 // Public
@@ -12,7 +13,7 @@ router.get("/test", (req, res) => res.json({ msg: "Items Works" }));
 // Retrieves all items
 // Public
 router.get("/", (req, res) => {
-  Item.findAll()
+  Item.find()
     .sort({ date: -1 })
     .then(items => res.json(items))
     .catch(err => res.status(404).json({ noitemsfound: "No items found" }));
