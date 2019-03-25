@@ -136,4 +136,14 @@ router.delete(
   }
 );
 
+router.get("/populatedUser", function(req, res) {
+  console.log("populatedUser")
+  User
+  .find({email: req.user.email})
+  .populate("items")
+  .then(function(dbUser) {
+    res.json(dbUser);
+  });
+});
+
 module.exports = router;
