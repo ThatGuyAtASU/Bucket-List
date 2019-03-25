@@ -5,6 +5,8 @@
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+    "axios": "^0.18.0",
+    "pexels-api-wrapper": "^1.1.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^5.0.0",
