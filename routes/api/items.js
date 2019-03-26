@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 
 //Load Item model
 const Item = require("../../models/Item");
@@ -45,7 +46,34 @@ router.post("/", (req, res) => {
     image: req.body.image
   });
 
-  newItem.save().then(item => res.json(item));
+
+  newItem.save().then(item => res.json(item))
+  return user.findOneAndUpdate({}, { $push: { items: user  } }, { new: true })
+    .then(function (Item) {
+      res.json(Item);
+    })
+    .catch(function (err) {
+      res.json(err);
+
+    });
 });
+
+// POST api/items
+// @desc Create post
+// @access Public
+router.post("/likes", passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Item.findByIdAndUpdate(
+      req.body.id,
+      {
+        $push: {
+          likes: req.user._id
+        }
+      },
+      { new: true }
+    ).then(dbItems => {
+      res.json(dbItems);
+    });
+  });
 
 module.exports = router;
