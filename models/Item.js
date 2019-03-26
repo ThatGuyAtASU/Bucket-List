@@ -10,10 +10,8 @@ var ItemSchema = new Schema({
   isDone: { type: Boolean, default: false },
   likes: [
     {
-      users: {
-        type: Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
         ref: 'users'
-      }
     }
   ],
   user: {

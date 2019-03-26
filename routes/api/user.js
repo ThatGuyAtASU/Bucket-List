@@ -163,13 +163,12 @@ router.delete(
   }
 );
 
-router.put("/isDone/:id",
-passport.authenticate("jwt", { session: false }),
-    (req, res) => {db.Item.update({$set:{"isDone": true}})}
-);
+ router.put("/isDone/:id",
+ passport.authenticate("jwt", { session: false }),
+     (req, res) => {db.Item.findByIdAndUpdate({id: req.params.id}, {$set:{"isDone": true}})}
+ );
 
 router.get("/populatedUser", function(req, res) {
-  console.log("populatedUser")
   User
   .find({email: req.user.email})
   .populate("items")
@@ -177,6 +176,7 @@ router.get("/populatedUser", function(req, res) {
     res.json(dbUser);
   });
 });
+
 
 
 
