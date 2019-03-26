@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {registerUser} from "./jwt";
 
 class SignUp extends React.Component {
 
@@ -30,15 +31,18 @@ class SignUp extends React.Component {
                 password: this.state.password
             }
 
-            axios.post("/api/user/register", newUser).then(data => {
-                this.setState({
-                    name: "",
-                    email: "",
-                    password: "",
-                    confirm: ""
-                });
-                console.log(data);
-            }).catch(err => console.log(err));
+
+            registerUser(newUser);
+
+            // axios.post("/api/user/register", newUser).then(data => {
+            //     this.setState({
+            //         name: "",
+            //         email: "",
+            //         password: "",
+            //         confirm: ""
+            //     });
+            //     console.log(data);
+            // }).catch(err => console.log(err));
 
 
 

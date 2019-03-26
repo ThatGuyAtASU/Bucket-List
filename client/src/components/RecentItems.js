@@ -20,7 +20,7 @@ class RecentItems extends React.Component{
     }
 
     handleLikeBtn = item => {
-        axios.put("/api/items/updatelike").then(data=> console.log(data)).catch(err=> console.log(err));
+        axios.put("/api/items/likes", {id: item}).then(data=> console.log(data)).catch(err=> console.log(err));
     }
 
 

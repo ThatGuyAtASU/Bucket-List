@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {loginUser} from "./jwt";
 
 class LogIn extends React.Component {
     
@@ -29,14 +30,19 @@ class LogIn extends React.Component {
 
             }
 
-            axios.post("/api/user/login", userInfo).then(data=>{
-                console.log(data);
-                window.location.replace("/user");
-                this.setState({
-                    email: "",
-                    password: ""
-                })
-            }).catch(err=>console.log(err));
+
+            loginUser(userInfo);
+
+            
+
+            // axios.post("/api/user/login", userInfo).then(data=>{
+            //     console.log(data);
+            //     window.location.replace("/user");
+            //     this.setState({
+            //         email: "",
+            //         password: ""
+            //     })
+            // }).catch(err=>console.log(err));
 
         }
 
