@@ -42,7 +42,8 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const newItem = new Item({
     title: req.body.title,
-    image: req.body.image
+    image: req.body.image,
+    user: req.user.id
   });
 
   newItem.save().then(item => res.json(item));

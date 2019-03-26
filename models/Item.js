@@ -8,7 +8,18 @@ var ItemSchema = new Schema({
   title: String,
   image: String,
   isDone: { type: Boolean, default: false },
-  likes: { type: Number, default: 0}
+  likes: [
+    {
+      users: {
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+      }
+    }
+  ],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'users'
+  }
 });
 
 var Item = mongoose.model("Item", ItemSchema);
