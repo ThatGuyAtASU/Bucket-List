@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 class LogIn extends React.Component {
     
@@ -20,6 +21,26 @@ class LogIn extends React.Component {
       handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
+
+        if(this.state.email && this.state.password){
+            let userInfo= {
+                email: this.state.email,
+                password: this.state.password
+
+            }
+
+            axios.post("/api/user/login", userInfo).then(data=>{
+                console.log(data);
+                window.location.replace("/user");
+                this.setState({
+                    email: "",
+                    password: ""
+                })
+            }).catch(err=>console.log(err));
+
+        }
+
+        
     
         // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
         alert(`Hello ${this.state.email} ${this.state.password}`);
