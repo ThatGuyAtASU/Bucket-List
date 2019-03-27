@@ -67,19 +67,46 @@ router.post("/:id", (req, res) => {
 // POST api/items
 // @desc Create post
 // @access Public
-router.post("/likes", passport.authenticate("jwt", { session: false }),
+router.put("/likes/:id",
   (req, res) => {
     Item.findByIdAndUpdate(
-      req.body.id,
+      req.params.id,
       {
         $push: {
-          likes: req.user._id
+          likes: req.body.id
         }
       },
-      { new: true }
+      { new: true, upsert: true }
     ).then(dbItems => {
       res.json(dbItems);
     });
   });
+
+
+// POST api/items
+// @desc    Create post
+// @access  Public
+router.post("/:id", (req, res) => {
+  const newItem = new Item({
+    title: req.body.title,
+    image: req.body.image
+  });
+
+
+  newItem.save().then(item => {
+
+    console.log(`Created Item : ${item}`);
+
+    User.findByIdAndUpdate(req.params.id, {$push: {items: item._id}}).then(res => {
+      res.json(res);
+    });
+  }).then(function (Item) {
+    res.json(Item);
+  })
+    .catch(function (err) {
+      res.json(err);
+
+    });
+});
 
 module.exports = router;

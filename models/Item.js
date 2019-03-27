@@ -8,6 +8,7 @@ var ItemSchema = new Schema({
   title: String,
   image: String,
   isDone: { type: Boolean, default: false },
+  isRemoved: { type: Boolean, default: false },
   likes: [
     {
       type: Schema.Types.ObjectId,

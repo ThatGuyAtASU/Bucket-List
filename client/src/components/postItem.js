@@ -43,7 +43,7 @@ class postItem extends React.Component {
                     
                     itemInfo.image = result.photos[0].src.medium;
 
-                    axios.post(`/api/items/${currentUserId}`, itemInfo).then(res => console.log(res)).catch(err => console.log(err));
+                    axios.post(`/api/items/${currentUserId}`, itemInfo).then(res => window.location.reload()).catch(err => console.log(err));
 
 
                 }).
