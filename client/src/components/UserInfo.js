@@ -2,6 +2,7 @@ import React from "react";
 import CardBody from './itemCard';
 import PostItem from "./postItem";
 import axios from "axios";
+import { setCurrentUser } from "./jwt";
 
 class UserInfo extends React.Component {
     state = {
@@ -10,25 +11,36 @@ class UserInfo extends React.Component {
         items: []
     }
 
+    componentWillMount() {
+        if (!localStorage.getItem('jwtToken')) {
+            return window.location.replace("/");
+        }
+
+    }
+
     componentDidMount() {
         this.setUserInfo();
     }
 
     setUserInfo = () => {
 
-        this.setState({ name: "Mustafa", image: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png", items: [{ title: "Do Homework", image: "http://lorempixel.com/output/abstract-q-c-640-480-1.jpg", isDone: false }, { title: "Get a Job", image: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg", isDone: false }, { title: "Climb Mt. Everest", image: "http://lorempixel.com/output/people-q-c-640-480-4.jpg", isDone: false }, { title: "Go to Japan", image: "http://lorempixel.com/output/fashion-q-c-640-480-6.jpg", isDone: false }, { title: "Eat Sushi", image: "http://lorempixel.com/output/nature-q-c-658-282-4.jpg", isDone: false }, { title: "Learn how to ride a horse", image: "http://lorempixel.com/output/sports-q-c-658-282-8.jpg", isDone: true }, { title: "Do Dishes", image: "http://lorempixel.com/output/technics-q-c-658-282-8.jpg", isDone: true }] })
+        // this.setState({ name: "Mustafa", image: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png", items: [{ title: "Do Homework", image: "http://lorempixel.com/output/abstract-q-c-640-480-1.jpg", isDone: false }, { title: "Get a Job", image: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg", isDone: false }, { title: "Climb Mt. Everest", image: "http://lorempixel.com/output/people-q-c-640-480-4.jpg", isDone: false }, { title: "Go to Japan", image: "http://lorempixel.com/output/fashion-q-c-640-480-6.jpg", isDone: false }, { title: "Eat Sushi", image: "http://lorempixel.com/output/nature-q-c-658-282-4.jpg", isDone: false }, { title: "Learn how to ride a horse", image: "http://lorempixel.com/output/sports-q-c-658-282-8.jpg", isDone: true }, { title: "Do Dishes", image: "http://lorempixel.com/output/technics-q-c-658-282-8.jpg", isDone: true }] })
 
+        let currentUser = setCurrentUser(localStorage.getItem('jwtToken')).payload;
+
+
+        this.setState({ name: currentUser.name, image: currentUser.image });
     }
 
     removeItem = item => {
-        axios.delete(`/api/user/removeItem/${item}`).then(data=>{console.log(data); window.location.reload();}).catch(err=> console.log(err));
-        
+        axios.delete(`/api/user/removeItem/${item}`).then(data => { console.log(data); window.location.reload(); }).catch(err => console.log(err));
+
 
     }
 
     itemDone = item => {
 
-        axios.put(``).then(data=> console.log(data)).catch(err=> console.log(err));
+        axios.put(``).then(data => console.log(data)).catch(err => console.log(err));
 
     }
 

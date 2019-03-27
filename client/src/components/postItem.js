@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import PexelsAPI from "pexels-api-wrapper";
+import { setCurrentUser } from "./jwt";
+
 
 //Create Client instance by passing in API key
 var pexelsClient = new PexelsAPI("563492ad6f917000010000015796d8934c854f92a64a4236b61829a6");
@@ -27,6 +29,9 @@ class postItem extends React.Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
+        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
+
+        console.log(currentUserId);
 
         if (this.state.title) {
             let itemInfo = {
@@ -35,15 +40,15 @@ class postItem extends React.Component {
             }
             pexelsClient.search(itemInfo.title, 1, 1)
                 .then(function (result) {
-                    console.log(result.photos[0].src.medium);
+                    
                     itemInfo.image = result.photos[0].src.medium;
 
-                    axios.post("/api/items", itemInfo).then(res => console.log(res)).catch(err => console.log(err));
+                    axios.post(`/api/items/${currentUserId}`, itemInfo).then(res => console.log(res)).catch(err => console.log(err));
 
 
                 }).
                 catch(function (e) {
-                    console.err(e);
+                    console.log(e);
                 });
 
 
