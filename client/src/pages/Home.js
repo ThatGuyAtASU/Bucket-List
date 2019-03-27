@@ -6,11 +6,11 @@ import Footer from "../components/Footer";
 import LoginModal from "../components/LoginModal";
 import SignUpModal from "../components/SignUpModal"
 
-function Home(){
+function Home(props){
 
     return <>
     <SignUpModal/>
-    <LoginModal/>
+    <LoginModal {...props} />
     <NavBar />
     <Jumbotron/>
     <RecentItems/>

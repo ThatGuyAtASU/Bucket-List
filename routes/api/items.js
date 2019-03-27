@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 
 //Load Item model
 const Item = require("../../models/Item");
+const User = require("../../models/User");
 
 // GET api/items/test
 // Tests items route
@@ -39,13 +41,46 @@ router.get("/:id", (req, res) => {
 // POST api/items
 // @desc    Create post
 // @access  Public
-router.post("/", (req, res) => {
+router.post("/:id", (req, res) => {
   const newItem = new Item({
     title: req.body.title,
     image: req.body.image,
-    user: req.user.id
   });
 
-  newItem.save().then(item => res.json(item));
+  newItem
+    .save()
+    .then(item => {
+      console.log(`Created Item : ${item}`);
+
+      User.findByIdAndUpdate(req.params.id, {
+        $push: { items: item._id },
+      }).then(res => {
+        res.json(res);
+      });
+    })
+    .then(function(Item) {
+      res.json(Item);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
 });
 
+// POST api/items
+// @desc Create post
+// @access Public
+router.put("/likes/:id", (req, res) => {
+  Item.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: {
+        likes: req.body.id,
+      },
+    },
+    { new: true, upsert: true }
+  ).then(dbItems => {
+    res.json(dbItems);
+  });
+});
+
+module.exports = router;

@@ -1,34 +1,48 @@
 import React from "react";
 import axios from "axios";
-import CardBody from "./itemCard"
+import CardBody from "./itemCard";
+import {setCurrentUser} from "./jwt"
 
-class RecentItems extends React.Component{
-    state= {
-        recentItems: [{image:"http://lorempixel.com/output/nature-q-c-640-480-4.jpg", title:"Climb Mt. Everest"}, {image:"http://lorempixel.com/output/nature-q-c-640-480-7.jpg", title:"Collect Flowers"}, {image:"http://lorempixel.com/output/nature-q-c-640-480-2.jpg", title:"Sail the World"}, {image:"http://lorempixel.com/output/nature-q-c-640-480-8.jpg", title:"Watch Clouds"}, {image:"http://lorempixel.com/output/sports-q-c-640-480-9.jpg", title:"Run a Marathon"}, {image:"http://lorempixel.com/output/food-q-c-640-480-10.jpg", title:"Bake Bread"}, {image:"http://lorempixel.com/output/business-q-c-640-480-5.jpg", title:"Get Hired"},]
+class RecentItems extends React.Component {
+    state = {
+        recentItems: [],
+
+        userExist: false
     }
 
-    componentDidMount(){
+    componentWillMount() {
+        this.setState({ userExist: localStorage.getItem('jwtToken') ? true : false });
+
+    }
+
+    componentDidMount() {
         this.getRecentItems();
     }
 
-    getRecentItems= ()=>{
+    getRecentItems = () => {
 
-        axios.get("/api/items").then(res=>{
-            this.setState({recentItems: res.data })
+        axios.get("/api/items").then(res => {
+            this.setState({ recentItems: res.data })
         }).catch(err => console.log(err));
 
     }
 
     handleLikeBtn = item => {
-        axios.put("/api/items/updatelike").then(data=> console.log(data)).catch(err=> console.log(err));
+        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
+        axios.put(`/api/items/likes/${item}`, { id: currentUserId }).then(data => console.log(data)).catch(err => console.log(err));
+    }
+
+    saveItem = item => {
+        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
+        axios.put(`/api/user/add/${currentUserId}`, {id: item}).then(res=>console.log(res)).catch(err=>console.log(err));
     }
 
 
-    render(){
+    render() {
         return <div className="container-fluid">
-        <div className="row">
-        {this.state.recentItems.map(item=> <CardBody handleLikeBtn={this.handleLikeBtn} {...item} />)}      
-        </div>
+            <div className="row">
+                {this.state.recentItems.map(item => <CardBody saveItem={this.saveItem} handleLikeBtn={this.handleLikeBtn} user={this.state.userExist} {...item} />)}
+            </div>
         </div>
     }
 

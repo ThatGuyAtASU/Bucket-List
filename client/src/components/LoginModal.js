@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {loginUser} from "./jwt";
 
 class LogIn extends React.Component {
     
@@ -29,21 +30,16 @@ class LogIn extends React.Component {
 
             }
 
-            axios.post("/api/user/login", userInfo).then(data=>{
-                console.log(data);
-                window.location.replace("/user");
-                this.setState({
-                    email: "",
-                    password: ""
-                })
-            }).catch(err=>console.log(err));
+
+            loginUser(userInfo);
+
 
         }
 
         
     
         // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
-        alert(`Hello ${this.state.email} ${this.state.password}`);
+        
         this.setState({
           email: "",
           password: ""
@@ -81,7 +77,7 @@ class LogIn extends React.Component {
 
                             <button onClick={this.handleFormSubmit} type="submit" class="btn btn-primary col-12 text-center"><i class="fas fa-sign-in-alt"></i> Log In</button>
                         </form>
-                        <p className="text-center">Don't you have an account yet?  <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#signUpBtn">Create an Account</a></p>
+                        <p className="text-center">Don't you have an account yet?  <a href="" data-dismiss="modal" data-toggle="modal" data-target="#signUpBtn">Create an Account</a></p>
                     </div>
                 </div>
             </div>

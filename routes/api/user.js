@@ -7,6 +7,7 @@ const passport = require("passport");
 
 //Load User model
 const User = require("../../models/User");
+const Item = require("../../models/Item");
 
 //  GET api/user/test
 //  Tests users route
@@ -24,7 +25,7 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -69,7 +70,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer " + token
+              token: "Bearer " + token,
             });
           }
         );
@@ -81,10 +82,9 @@ router.post("/login", (req, res) => {
   });
 });
 
-
-router.get('/logout', function(req, res){
+router.get("/logout", function(req, res) {
   req.logout();
-  res.redirect('/');
+  res.redirect("/");
 });
 
 //  GET api/user/current
@@ -97,7 +97,7 @@ router.get(
     res.json({
       id: req.user.id,
       name: req.user.name,
-      email: req.user.email
+      email: req.user.email,
     });
   }
 );
@@ -105,23 +105,19 @@ router.get(
 //  PUT api/user/add
 //  Adds to Users saved Bucket List Items
 //  Private
-router.get(
-  "/add",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    User.findByIdAndUpdate(
-      req.user._id,
-      {
-        $push: {
-          items: req.body.id
-        }
+router.put("/add/:id", (req, res) => {
+  User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $push: {
+        items: req.body.id,
       },
-      { new: true }
-    ).then(dbItems => {
-      res.json(dbItems);
-    });
-  }
-);
+    },
+    { new: true }
+  ).then(dbItems => {
+    res.json(dbItems);
+  });
+});
 
 //  GET api/user/savedItems
 //  Returns users saved Bucket List Items
@@ -138,7 +134,7 @@ router.get(
         res.json({
           id: req.user.id,
           name: req.user.name,
-          items: req.user.items
+          items: req.user.items,
         });
       }
     });
@@ -148,36 +144,24 @@ router.get(
 //  DELETE api/user/removeItem/:id
 //  Deletes users saved Bucket List Items
 //  Private
-router.delete(
-  "/removeItem/:id",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $pull: { items: parseInt(req.params.id) } },
-      { safe: true, upsert: true }
-    )
-      .then(result => console.log("Result", result))
-      .catch(err => console.log("ERROR", err));
-    res.send("Delete route hit");
-  }
-);
-
-router.put("/isDone/:id",
-passport.authenticate("jwt", { session: false }),
-    (req, res) => {db.Item.update({$set:{"isDone": true}})}
-);
-
-router.get("/populatedUser", function(req, res) {
-  console.log("populatedUser")
-  User
-  .find({email: req.user.email})
-  .populate("items")
-  .then(function(dbUser) {
-    res.json(dbUser);
-  });
+router.put("/isRemoved/:id", (req, res) => {
+  Item.findByIdAndUpdate(req.params.id, { $set: { isRemoved: true } })
+    .then(data => res.json(data))
+    .catch(err => res.json(err));
 });
 
+router.put("/isDone/:id", (req, res) => {
+  Item.findByIdAndUpdate(req.params.id, { $set: { isDone: true } })
+    .then(data => res.json(data))
+    .catch(err => res.json(err));
+});
 
+router.get("/populatedUser/:id", function(req, res) {
+  User.findById(req.params.id)
+    .populate("items")
+    .then(function(dbUser) {
+      res.json(dbUser);
+    });
+});
 
 module.exports = router;

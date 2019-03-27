@@ -2,6 +2,7 @@ import React from "react";
 import CardBody from './itemCard';
 import PostItem from "./postItem";
 import axios from "axios";
+import { setCurrentUser } from "./jwt";
 
 class UserInfo extends React.Component {
     state = {
@@ -10,27 +11,52 @@ class UserInfo extends React.Component {
         items: []
     }
 
+    componentWillMount() {
+        if (!localStorage.getItem('jwtToken')) {
+            return window.location.replace("/");
+        }
+
+    }
+
+    
+
     componentDidMount() {
         this.setUserInfo();
     }
 
     setUserInfo = () => {
 
-        this.setState({ name: "Mustafa", image: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png", items: [{ title: "Do Homework", image: "http://lorempixel.com/output/abstract-q-c-640-480-1.jpg", isDone: false }, { title: "Get a Job", image: "http://lorempixel.com/output/nightlife-q-c-640-480-1.jpg", isDone: false }, { title: "Climb Mt. Everest", image: "http://lorempixel.com/output/people-q-c-640-480-4.jpg", isDone: false }, { title: "Go to Japan", image: "http://lorempixel.com/output/fashion-q-c-640-480-6.jpg", isDone: false }, { title: "Eat Sushi", image: "http://lorempixel.com/output/nature-q-c-658-282-4.jpg", isDone: false }, { title: "Learn how to ride a horse", image: "http://lorempixel.com/output/sports-q-c-658-282-8.jpg", isDone: true }, { title: "Do Dishes", image: "http://lorempixel.com/output/technics-q-c-658-282-8.jpg", isDone: true }] })
+        let currentUser = setCurrentUser(localStorage.getItem('jwtToken')).payload;
 
+
+        this.setState({ name: currentUser.name, image: currentUser.image });
+
+        axios.get(`/api/user/populatedUser/${currentUser.id}`).then(res=>{
+            this.setState({items: res.data.items });
+        }).catch(err=> console.log(err));
     }
 
     removeItem = item => {
-        axios.delete(`/api/user/removeItem/${item}`).then(data=>{console.log(data); window.location.reload();}).catch(err=> console.log(err));
+
         
+
+        axios.put(`/api/user/isRemoved/${item}`).then(data => { console.log(data); 
+            window.location.reload(); 
+        }).catch(err => console.log(err));
+
 
     }
 
     itemDone = item => {
+        console.log("DONE");
 
-        axios.put(``).then(data=> console.log(data)).catch(err=> console.log(err));
+        axios.put(`/api/user/isDone/${item}`).then(data => {console.log(data);
+        window.location.reload();
+        }).catch(err => console.log(err));
 
     }
+
+   
 
 
     render() {
@@ -58,7 +84,7 @@ class UserInfo extends React.Component {
 
                 <div className="row">
 
-                    {this.state.items.filter(item => !item.isDone).map(item => <CardBody user={true} isDone={this.isDone} removeItem={this.removeItem} {...item} />)}
+                    {this.state.items.filter(item => !item.isDone&&!item.isRemoved).map(item => <CardBody profile={true} user={true} itemDone={this.itemDone} removeItem={this.removeItem} {...item} />)}
                 </div>
 
                 <div className="row mt-3">
@@ -68,7 +94,7 @@ class UserInfo extends React.Component {
                 </div>
 
                 <div className="row">
-                    {this.state.items.filter(item => item.isDone).map(item => <CardBody user={true} isDone={this.isDone} removeItem={this.removeItem} {...item} />)}
+                    {this.state.items.filter(item => item.isDone&&!item.isRemoved).map(item => <CardBody user={true} profile={true} isDone={this.isDone} removeItem={this.removeItem} {...item} />)}
                 </div>
 
 
