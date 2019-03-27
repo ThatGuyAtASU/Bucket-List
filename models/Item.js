@@ -11,12 +11,12 @@ var ItemSchema = new Schema({
   likes: [
     {
       type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'User'
     }
   ],
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'User'
   }
 });
 

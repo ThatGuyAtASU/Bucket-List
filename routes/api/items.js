@@ -4,6 +4,7 @@ const passport = require("passport");
 
 //Load Item model
 const Item = require("../../models/Item");
+const User = require("../../models/User");
 
 // GET api/items/test
 // Tests items route
@@ -47,11 +48,16 @@ router.post("/:id", (req, res) => {
   });
 
 
-  newItem.save().then(item => res.json(item))
-  return user.findByIdAndUpdate(req.params.id, { $push: { items: user  } }, { new: true })
-    .then(function (Item) {
-      res.json(Item);
-    })
+  newItem.save().then(item => {
+
+    console.log(`Created Item : ${item}`);
+
+    User.findByIdAndUpdate(req.params.id, {$push: {items: item._id}}).then(res => {
+      res.json(res);
+    });
+  }).then(function (Item) {
+    res.json(Item);
+  })
     .catch(function (err) {
       res.json(err);
 
