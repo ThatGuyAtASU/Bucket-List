@@ -67,16 +67,16 @@ router.post("/:id", (req, res) => {
 // POST api/items
 // @desc Create post
 // @access Public
-router.post("/likes", passport.authenticate("jwt", { session: false }),
+router.put("/likes/:id",
   (req, res) => {
     Item.findByIdAndUpdate(
-      req.body.id,
+      req.params.id,
       {
         $push: {
-          likes: req.user._id
+          likes: req.body.id
         }
       },
-      { new: true }
+      { new: true, upsert: true }
     ).then(dbItems => {
       res.json(dbItems);
     });
