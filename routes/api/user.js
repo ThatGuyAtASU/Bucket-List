@@ -7,6 +7,7 @@ const passport = require("passport");
 
 //Load User model
 const User = require("../../models/User");
+const Item = require("../../models/Item");
 
 //  GET api/user/test
 //  Tests users route
@@ -105,12 +106,11 @@ router.get(
 //  PUT api/user/add
 //  Adds to Users saved Bucket List Items
 //  Private
-router.get(
-  "/add",
-  passport.authenticate("jwt", { session: false }),
+router.put(
+  "/add/:id",
   (req, res) => {
     User.findByIdAndUpdate(
-      req.user._id,
+      req.params.id,
       {
         $push: {
           items: req.body.id
@@ -148,29 +148,17 @@ router.get(
 //  DELETE api/user/removeItem/:id
 //  Deletes users saved Bucket List Items
 //  Private
-router.delete(
-  "/removeItem/:id",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $pull: { items: parseInt(req.params.id) } },
-      { safe: true, upsert: true }
-    )
-      .then(result => console.log("Result", result))
-      .catch(err => console.log("ERROR", err));
-    res.send("Delete route hit");
-  }
-);
+router.put("/isRemoved/:id", (req, res) => {
+  Item.findByIdAndUpdate(req.params.id, {$set:{isRemoved: true}}).then(data=> res.json(data)).catch(err=>res.json(err));
+});
 
- router.put("/isDone/:id",
- passport.authenticate("jwt", { session: false }),
-     (req, res) => {db.Item.findByIdAndUpdate({id: req.params.id}, {$set:{"isDone": true}})}
- );
+router.put("/isDone/:id", (req, res) => {
+  Item.findByIdAndUpdate(req.params.id, {$set:{isDone: true}}).then(data=> res.json(data)).catch(err=>res.json(err));
+});
 
-router.get("/populatedUser", function(req, res) {
+router.get("/populatedUser/:id", function(req, res) {
   User
-  .find({email: req.user.email})
+  .findById(req.params.id)
   .populate("items")
   .then(function(dbUser) {
     res.json(dbUser);
