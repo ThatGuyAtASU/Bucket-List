@@ -30,6 +30,12 @@ class UserInfo extends React.Component {
 
 
         this.setState({ name: currentUser.name, image: currentUser.image });
+
+        axios.get(`/api/user/populatedUser/${currentUser.id}`).then(res =>{
+            console.log(`Populated: ${JSON.stringify(res.data.items)}`);
+            this.setState({items: res.data.items});
+
+        }).catch(err=> console.log(err));
     }
 
     removeItem = item => {

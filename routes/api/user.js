@@ -7,6 +7,7 @@ const passport = require("passport");
 
 //Load User model
 const User = require("../../models/User");
+const Item = require("../../models/Item");
 
 //  GET api/user/test
 //  Tests users route
@@ -150,7 +151,6 @@ router.get(
 //  Private
 router.delete(
   "/removeItem/:id",
-  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.findOneAndUpdate(
       { _id: req.user._id },
@@ -163,14 +163,11 @@ router.delete(
   }
 );
 
- router.put("/isDone/:id",
- passport.authenticate("jwt", { session: false }),
-     (req, res) => {db.Item.findByIdAndUpdate({id: req.params.id}, {$set:{"isDone": true}})}
- );
+ router.put("/isDone/:id",(req, res) => {db.Item.findByIdAndUpdate({id: req.params.id}, {$set:{"isDone": true}})});
 
-router.get("/populatedUser", function(req, res) {
+router.get("/populatedUser/:id", function(req, res) {
   User
-  .find({email: req.user.email})
+  .findById(req.params.id)
   .populate("items")
   .then(function(dbUser) {
     res.json(dbUser);
@@ -178,6 +175,12 @@ router.get("/populatedUser", function(req, res) {
 });
 
 
-
+router.put("/profilePicture/:id", function(req, res) {
+  User
+  .findByIdAndUpdate(req.params.id, {$set: {image: req.body.image}})
+  .then(function(dbUser){
+    res.json(dbUser);
+  });
+});
 
 module.exports = router;
