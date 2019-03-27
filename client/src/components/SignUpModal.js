@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {registerUser} from "./jwt";
+import { registerUser, loginUser } from "./jwt";
 
 class SignUp extends React.Component {
 
@@ -32,17 +32,26 @@ class SignUp extends React.Component {
             }
 
 
-            registerUser(newUser);
+            registerUser(newUser).then(res => {
+                let newUserInfo = {
+                    email: res.data.email,
+                    password: newUser.password
+                }
 
-            // axios.post("/api/user/register", newUser).then(data => {
-            //     this.setState({
-            //         name: "",
-            //         email: "",
-            //         password: "",
-            //         confirm: ""
-            //     });
-            //     console.log(data);
-            // }).catch(err => console.log(err));
+                loginUser(newUserInfo);
+                this.setState({
+                    name: "",
+                    email: "",
+                    password: "",
+                    confirm: ""
+                });
+
+            }).catch(err => console.log(err));
+
+
+
+
+
 
 
 
@@ -54,10 +63,6 @@ class SignUp extends React.Component {
             }
         }
 
-
-
-        // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
-        alert(`Name: ${this.state.name}, Email: ${this.state.email}, Pass: ${this.state.password}, Confirm: ${this.state.confirm}`);
 
     };
     render() {
