@@ -40,7 +40,7 @@ router.get("/:id", (req, res) => {
 // POST api/items
 // @desc    Create post
 // @access  Public
-router.post("/", (req, res) => {
+router.post("/:id", (req, res) => {
   const newItem = new Item({
     title: req.body.title,
     image: req.body.image
@@ -48,7 +48,7 @@ router.post("/", (req, res) => {
 
 
   newItem.save().then(item => res.json(item))
-  return user.findOneAndUpdate({}, { $push: { items: user  } }, { new: true })
+  return user.findByIdAndUpdate(req.params.id, { $push: { items: user  } }, { new: true })
     .then(function (Item) {
       res.json(Item);
     })
