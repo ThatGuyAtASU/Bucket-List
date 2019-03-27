@@ -13,17 +13,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-<<<<<<< HEAD
-// Define middleware here
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
-}
-=======
 app.use(express.static("public"));
->>>>>>> c8b6694a68657ca9bf4ea70c4f860561ce180444
 
 //Connect to MongoDB
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/bucketlistdb";
