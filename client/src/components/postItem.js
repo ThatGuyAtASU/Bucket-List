@@ -4,8 +4,11 @@ import PexelsAPI from "pexels-api-wrapper";
 import { setCurrentUser } from "./jwt";
 
 
+
+
 //Create Client instance by passing in API key
-var pexelsClient = new PexelsAPI("563492ad6f917000010000015796d8934c854f92a64a4236b61829a6");
+var pexelsKey;
+
 
 class postItem extends React.Component {
 
@@ -15,6 +18,11 @@ class postItem extends React.Component {
 
     }
 
+    componentWillMount(){
+        axios.get("/api/user/apiKeys").then(res=> pexelsKey=res.data.pexels);
+    }
+
+    
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
@@ -29,6 +37,7 @@ class postItem extends React.Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
+        var pexelsClient = new PexelsAPI(pexelsKey);
         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
 
         console.log(currentUserId);
