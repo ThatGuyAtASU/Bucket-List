@@ -67,7 +67,7 @@ class UserInfo extends React.Component {
                 <div className="jumbotron bg-transparent text-center">
                     <img style={{ width: "18rem" }} src={this.state.image} alt={this.state.name} className="rounded-circle" />
                     <br />
-                    <button className="btn btn-primary btn-lg mt-3" id="edit-profile">Upload Profile Picture</button>
+                    <button className="btn btn-primary btn-lg mt-3" data-toggle="modal" data-target="#profilePicture">Upload Profile Picture</button>
                     <h1 className="display-4">Hello, {this.state.name}!</h1>
 
 

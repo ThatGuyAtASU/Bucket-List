@@ -76,7 +76,7 @@ router.put("/likes/:id",
           likes: req.body.id
         }
       },
-      { new: true, upsert: true }
+      { new: true }
     ).then(dbItems => {
       res.json(dbItems);
     });

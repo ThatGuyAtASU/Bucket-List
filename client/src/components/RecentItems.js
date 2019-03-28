@@ -29,12 +29,16 @@ class RecentItems extends React.Component {
 
     handleLikeBtn = item => {
         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-        axios.put(`/api/items/likes/${item}`, { id: currentUserId }).then(data => console.log(data)).catch(err => console.log(err));
+        axios.put(`/api/items/likes/${item}`, { id: currentUserId }).then(data => {console.log(data);
+        window.location.reload();
+        }).catch(err => console.log(err));
     }
 
     saveItem = item => {
         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-        axios.put(`/api/user/add/${currentUserId}`, {id: item}).then(res=>console.log(res)).catch(err=>console.log(err));
+        axios.put(`/api/user/add/${currentUserId}`, {id: item}).then(res=>{console.log(res);
+        window.location.reload();
+        }).catch(err=>console.log(err));
     }
 
 
