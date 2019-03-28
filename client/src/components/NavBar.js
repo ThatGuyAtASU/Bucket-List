@@ -38,7 +38,7 @@ function NavBar() {
 
     </div>
     <button className="btn btn-success ml-3" data-toggle="modal" data-target="#signUpBtn" >Sign Up</button>
-    <button className="btn btn-outline-primary ml-3" data-toggle="modal" data-target="#loginBtn" >Log In</button>
+    <button className="btn btn-outline-primary ml-3" data-toggle="modal" data-target="#logoutBtn" >Log In</button>
   </nav>
 }
 
