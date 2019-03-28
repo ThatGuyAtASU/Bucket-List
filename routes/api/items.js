@@ -83,6 +83,22 @@ router.put("/likes/:id",
   });
 
 
+  router.put("/removelikes/:id",
+  (req, res) => {
+    Item.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          likes: req.body.id
+        }
+      },
+      { new: true }
+    ).then(dbItems => {
+      res.json(dbItems);
+    });
+  });
+
+
 // POST api/items
 // @desc    Create post
 // @access  Public

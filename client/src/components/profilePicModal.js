@@ -46,7 +46,7 @@ class profilePicModal extends React.Component {
                     pathReference.getDownloadURL().then(function (url) {
                         console.log("DownloadURL: " + url);
                         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-                        axios.put(`api/user/profilePicture/${currentUserId}`, {image: url}).then(res=> window.location.reload()).catch(err=>console.log(err));
+                        axios.put(`api/user/profilePicture/${currentUserId}`, {image: url}).then(res=> console.log(res)).catch(err=>console.log(err));
 
                         
 
