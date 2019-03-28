@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
+require('dotenv').config();
 
 //Load User model
 const User = require("../../models/User");
@@ -180,5 +181,16 @@ router.delete("/deleteAccount/:id", function (req, res) {
   User
     .findByIdAndDelete(req.params.id).then(data=> res.json(data)).catch(err=> res.json(err));
 })
+
+
+router.get("/apiKeys", (req, res)=>{
+  var apiKeys ={
+    pexels: process.env.pexels,
+    firebase: process.env.firebase
+  }
+
+  res.json(apiKeys);
+
+});
 
 module.exports = router;

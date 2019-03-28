@@ -23,7 +23,7 @@ class profilePicModal extends React.Component {
 
         if (true) {
             storageRef = storage.ref('bucketlist/' + file.name);
-            console.log("File Name: " + file.name);
+            
 
             storageRef.put(file);
 
@@ -44,9 +44,9 @@ class profilePicModal extends React.Component {
                     
                     var pathReference = storage.ref('bucketlist/' + file.name);
                     pathReference.getDownloadURL().then(function (url) {
-                        console.log("DownloadURL: " + url);
+                        
                         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-                        axios.put(`api/user/profilePicture/${currentUserId}`, {image: url}).then(res=> console.log(res)).catch(err=>console.log(err));
+                        axios.put(`api/user/profilePicture/${currentUserId}`, {image: url}).then(res=> window.location.reload()).catch(err=>console.log(err));
 
                         
 
@@ -63,11 +63,7 @@ class profilePicModal extends React.Component {
         }
 
 
-        alert(
-            `Selected file - ${
-            this.fileInput.current.files[0].name
-            }`
-        );
+       
     }
 
 

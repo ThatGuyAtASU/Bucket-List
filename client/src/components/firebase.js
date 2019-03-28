@@ -1,9 +1,13 @@
  import firebase from 'firebase/app';
  import 'firebase/storage';
+ import axios from 'axios';
+ var firebaseKey;
  
+ axios.get("/api/user/apiKeys").then(res=> firebaseKey=res.data.firebase);
+
  // Initialize Firebase
  var config = {
-    apiKey: "AIzaSyBDhe0HsuYEWNPcnABI2i2X94lXRcthmLY",
+    apiKey: firebaseKey,
     authDomain: "bucketlist-c3666.firebaseapp.com",
     databaseURL: "https://bucketlist-c3666.firebaseio.com",
     projectId: "bucketlist-c3666",
