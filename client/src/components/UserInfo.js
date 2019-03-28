@@ -8,7 +8,8 @@ class UserInfo extends React.Component {
     state = {
         name: "",
         image: "",
-        items: []
+        items: [],
+        userId: ''
     }
 
     componentWillMount() {
@@ -27,20 +28,21 @@ class UserInfo extends React.Component {
     setUserInfo = () => {
 
         let currentUser = setCurrentUser(localStorage.getItem('jwtToken')).payload;
+        this.setState({userId: currentUser.id});
 
 
-        this.setState({ name: currentUser.name, image: currentUser.image });
+        this.setState({ name: currentUser.name});
 
         axios.get(`/api/user/populatedUser/${currentUser.id}`).then(res=>{
-            this.setState({items: res.data.items });
+            this.setState({items: res.data.items, image: res.data.image });
         }).catch(err=> console.log(err));
     }
 
     removeItem = item => {
 
-        
+        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
 
-        axios.put(`/api/user/isRemoved/${item}`).then(data => { console.log(data); 
+        axios.put(`/api/user/isRemoved/${currentUserId}`, {id: item}).then(data => { console.log(data); 
             window.location.reload(); 
         }).catch(err => console.log(err));
 
@@ -50,7 +52,7 @@ class UserInfo extends React.Component {
     itemDone = item => {
         console.log("DONE");
 
-        axios.put(`/api/user/isDone/${item}`).then(data => {console.log(data);
+        axios.put(`/api/user/isDone/${item}`, {id: this.state.userId}).then(data => {console.log(data);
         window.location.reload();
         }).catch(err => console.log(err));
 
@@ -67,13 +69,13 @@ class UserInfo extends React.Component {
                 <div className="jumbotron bg-transparent text-center">
                     <img style={{ width: "18rem" }} src={this.state.image} alt={this.state.name} className="rounded-circle" />
                     <br />
-                    <button className="btn btn-primary btn-lg mt-3" id="edit-profile">Upload Profile Picture</button>
+                    <button className="btn btn-primary btn-lg mt-3" data-toggle="modal" data-target="#profilePicture">Upload Profile Picture</button>
                     <h1 className="display-4">Hello, {this.state.name}!</h1>
 
 
                     <button className="btn btn-outline-success btn-lg" data-toggle="modal" data-target="#postItemBtn">Post a Bucketlist Item</button>
 
-                    <button className="btn btn-danger ml-3 btn-lg" id="delete-profile">Delete Account</button>
+                    <button className="btn btn-danger ml-3 btn-lg" data-toggle="modal" data-target="#delete-modal">Delete Account</button>
                 </div>
                 <div className="row">
                     <div className="col">
@@ -84,7 +86,7 @@ class UserInfo extends React.Component {
 
                 <div className="row">
 
-                    {this.state.items.filter(item => !item.isDone&&!item.isRemoved).map(item => <CardBody profile={true} user={true} itemDone={this.itemDone} removeItem={this.removeItem} {...item} />)}
+                    {this.state.items.filter(item => !item.isDone.includes(this.state.userId)&&!item.isRemoved).map(item => <CardBody profile={true} user={true} itemDone={this.itemDone} removeItem={this.removeItem} {...item} />)}
                 </div>
 
                 <div className="row mt-3">
@@ -94,7 +96,7 @@ class UserInfo extends React.Component {
                 </div>
 
                 <div className="row">
-                    {this.state.items.filter(item => item.isDone&&!item.isRemoved).map(item => <CardBody user={true} profile={true} isDone={this.isDone} removeItem={this.removeItem} {...item} />)}
+                    {this.state.items.filter(item => item.isDone.includes(this.state.userId)&&!item.isRemoved).map(item => <CardBody user={true} profile={true} isDone={this.isDone} removeItem={this.removeItem} {...item} />)}
                 </div>
 
 

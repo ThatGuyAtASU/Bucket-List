@@ -60,7 +60,7 @@ router.post("/login", (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, name: user.name, image: user.image }; // Create JWT Payload
+        const payload = { id: user.id, name: user.name, image: user.image, items: user.items }; // Create JWT Payload
 
         // Sign Token
         jwt.sign(
@@ -149,11 +149,11 @@ router.get(
 //  Deletes users saved Bucket List Items
 //  Private
 router.put("/isRemoved/:id", (req, res) => {
-  Item.findByIdAndUpdate(req.params.id, { $set: { isRemoved: true } }).then(data => res.json(data)).catch(err => res.json(err));
+  User.findByIdAndUpdate(req.params.id, { $pull: { items: req.body.id } }).then(data => res.json(data)).catch(err => res.json(err));
 });
 
 router.put("/isDone/:id", (req, res) => {
-  Item.findByIdAndUpdate(req.params.id, { $set: { isDone: true } }).then(data => res.json(data)).catch(err => res.json(err));
+  Item.findByIdAndUpdate(req.params.id, { $push: { isDone: req.body.id } }).then(data => res.json(data)).catch(err => res.json(err));
 });
 
 router.get("/populatedUser/:id", function (req, res) {
@@ -176,16 +176,7 @@ router.put("/profilePicture/:id", function (req, res) {
 
 router.delete("/deleteAccount/:id", function (req, res) {
   User
-    .findByIdAndDelete(req.params.id, (err, data) => {
-      if (err) {
-        throw err;
-      }
-
-      else {
-        console.log("Account Deleted")
-        Response.status(204);
-      }
-    })
+    .findByIdAndDelete(req.params.id).then(data=> res.json(data)).catch(err=> res.json(err));
 })
 
 module.exports = router;

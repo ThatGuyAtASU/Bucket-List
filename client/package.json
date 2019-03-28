@@ -6,6 +6,7 @@
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^5.9.1",
     "jwt-decode": "^2.2.0",
     "pexels-api-wrapper": "^1.1.1",
     "react": "^16.6.3",
