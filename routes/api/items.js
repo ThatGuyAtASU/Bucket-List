@@ -76,7 +76,23 @@ router.put("/likes/:id",
           likes: req.body.id
         }
       },
-      { new: true, upsert: true }
+      { new: true }
+    ).then(dbItems => {
+      res.json(dbItems);
+    });
+  });
+
+
+  router.put("/removelikes/:id",
+  (req, res) => {
+    Item.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          likes: req.body.id
+        }
+      },
+      { new: true }
     ).then(dbItems => {
       res.json(dbItems);
     });
