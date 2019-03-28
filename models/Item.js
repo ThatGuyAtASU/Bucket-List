@@ -7,8 +7,13 @@ var Schema = mongoose.Schema;
 var ItemSchema = new Schema({
   title: String,
   image: String,
-  isDone: { type: Boolean, default: false },
-  isRemoved: { type: Boolean, default: false },
+  isDone: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+    
+  ],
   likes: [
     {
       type: Schema.Types.ObjectId,

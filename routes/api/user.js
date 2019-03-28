@@ -83,7 +83,7 @@ router.post("/login", (req, res) => {
 });
 
 
-router.get('/logout', function(req, res){
+router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
@@ -149,23 +149,43 @@ router.get(
 //  Deletes users saved Bucket List Items
 //  Private
 router.put("/isRemoved/:id", (req, res) => {
-  Item.findByIdAndUpdate(req.params.id, {$set:{isRemoved: true}}).then(data=> res.json(data)).catch(err=>res.json(err));
+  Item.findByIdAndUpdate(req.params.id, { $set: { isRemoved: true } }).then(data => res.json(data)).catch(err => res.json(err));
 });
 
 router.put("/isDone/:id", (req, res) => {
-  Item.findByIdAndUpdate(req.params.id, {$set:{isDone: true}}).then(data=> res.json(data)).catch(err=>res.json(err));
+  Item.findByIdAndUpdate(req.params.id, { $set: { isDone: true } }).then(data => res.json(data)).catch(err => res.json(err));
 });
 
-router.get("/populatedUser/:id", function(req, res) {
+router.get("/populatedUser/:id", function (req, res) {
   User
-  .findById(req.params.id)
-  .populate("items")
-  .then(function(dbUser) {
-    res.json(dbUser);
-  });
+    .findById(req.params.id)
+    .populate("items")
+    .then(function (dbUser) {
+      res.json(dbUser);
+    });
 });
 
 
+router.put("/profilePicture/:id", function (req, res) {
+  User
+    .findByIdAndUpdate(req.params.id, { $set: { image: req.body.image } })
+    .then(function (dbUser) {
+      res.json(dbUser);
+    });
+});
 
+router.delete("/deleteAccount/:id", function (req, res) {
+  User
+    .findByIdAndDelete(req.params.id, (err, data) => {
+      if (err) {
+        throw err;
+      }
+
+      else {
+        console.log("Account Deleted")
+        Response.status(204);
+      }
+    })
+})
 
 module.exports = router;
