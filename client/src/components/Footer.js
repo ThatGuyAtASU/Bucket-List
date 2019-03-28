@@ -4,7 +4,7 @@ import React from "react";
 function Footer() {
     return <footer className="footer bg-primary py-3 mt-3">
     <div className="container">
-    <p>Copyright 2019</p>
+    <p className="lead text-center">Copyright 2019</p>
     </div>
     </footer>
 
