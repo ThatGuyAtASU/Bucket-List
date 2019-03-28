@@ -165,7 +165,7 @@ router.get("/populatedUser/:id", function (req, res) {
     });
 });
 
-
+//route to add a picture to the profile from the profile
 router.put("/profilePicture/:id", function (req, res) {
   User
     .findByIdAndUpdate(req.params.id, { $set: { image: req.body.image } })
@@ -174,6 +174,8 @@ router.put("/profilePicture/:id", function (req, res) {
     });
 });
 
+
+//route to delete the user account from the profile page
 router.delete("/deleteAccount/:id", function (req, res) {
   User
     .findByIdAndDelete(req.params.id, (err, data) => {
