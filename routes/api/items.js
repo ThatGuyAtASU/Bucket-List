@@ -52,7 +52,7 @@ router.post("/:id", (req, res) => {
 
     console.log(`Created Item : ${item}`);
 
-    User.findByIdAndUpdate(req.params.id, {$push: {items: item._id}}).then(res => {
+    User.findByIdAndUpdate(req.params.id, { $push: { items: item._id } }).then(res => {
       res.json(res);
     });
   }).then(function (Item) {
@@ -97,7 +97,7 @@ router.post("/:id", (req, res) => {
 
     console.log(`Created Item : ${item}`);
 
-    User.findByIdAndUpdate(req.params.id, {$push: {items: item._id}}).then(res => {
+    User.findByIdAndUpdate(req.params.id, { $push: { items: item._id } }).then(res => {
       res.json(res);
     });
   }).then(function (Item) {
