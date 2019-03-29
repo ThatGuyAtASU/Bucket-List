@@ -13,7 +13,9 @@ const Item = require("../../models/Item");
 //  GET api/user/test
 //  Tests users route
 //  Public
-router.get("/test", (req, res) => res.json({ msg: "Users Works" }));
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id).then(data=> res.json(data)).catch(err=>res.json(err));
+});
 
 //  POST api/user/register
 //  Registers user
@@ -61,7 +63,7 @@ router.post("/login", (req, res) => {
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, name: user.name, image: user.image, items: user.items }; // Create JWT Payload
+        const payload = { id: user.id, name: user.name, image: user.image, items: user.items}; // Create JWT Payload
 
         // Sign Token
         jwt.sign(
@@ -183,13 +185,13 @@ router.delete("/deleteAccount/:id", function (req, res) {
 })
 
 
-router.get("/apiKeys", (req, res)=>{
-  var apiKeys ={
+router.get("/env/getInfo", (req, res)=>{
+  var keys ={
     pexels: process.env.pexels,
     firebase: process.env.firebase
   }
 
-  res.json(apiKeys);
+  res.json(keys);
 
 });
 

@@ -16,14 +16,15 @@ class UserInfo extends React.Component {
         if (!localStorage.getItem('jwtToken')) {
             return window.location.replace("/");
         }
+        this.setUserInfo();
 
     }
 
     
 
-    componentDidMount() {
-        this.setUserInfo();
-    }
+    // componentDidMount() {
+    //     this.setUserInfo();
+    // }
 
     setUserInfo = () => {
 
@@ -42,7 +43,7 @@ class UserInfo extends React.Component {
 
         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
 
-        axios.put(`/api/user/isRemoved/${currentUserId}`, {id: item}).then(data => { console.log(data); 
+        axios.put(`/api/user/isRemoved/${currentUserId}`, {id: item}).then(data => { 
             window.location.reload(); 
         }).catch(err => console.log(err));
 
@@ -50,9 +51,9 @@ class UserInfo extends React.Component {
     }
 
     itemDone = item => {
-        console.log("DONE");
+        
 
-        axios.put(`/api/user/isDone/${item}`, {id: this.state.userId}).then(data => {console.log(data);
+        axios.put(`/api/user/isDone/${item}`, {id: this.state.userId}).then(data => {
         window.location.reload();
         }).catch(err => console.log(err));
 

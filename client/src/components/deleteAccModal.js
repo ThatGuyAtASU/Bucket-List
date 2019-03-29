@@ -12,7 +12,7 @@ class DeleteAccModal extends React.Component {
 
         axios.delete(`/api/user/deleteAccount/${currentUserId}`).then(res => {
             
-            console.log(res);
+            
             logoutUser();
         }).catch(err => console.log(err));
 

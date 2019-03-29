@@ -9,10 +9,18 @@ import {setCurrentUser} from './jwt';
 class profilePicModal extends React.Component {
     constructor(props) {
         super(props);
+        this.state={
+            valuenow: '',
+            width: '',
+            text: ''
+
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.fileInput = React.createRef();
     }
-    handleSubmit(event) {
+
+    
+    handleSubmit= event=> {
         event.preventDefault();
 
         var file = this.fileInput.current.files[0];
@@ -29,8 +37,10 @@ class profilePicModal extends React.Component {
 
 
 
-            storageRef.put(file).on('state_changed', function progress(snapshot) {
+            storageRef.put(file).on('state_changed',  (snapshot) => {
                 var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+                this.setState({valuenow: percentage, width: `${percentage}%`, text: `${Math.round(percentage)}%`})
 
 
                 // $(".progress-bar").attr("aria-valuenow", percentage);
@@ -87,11 +97,11 @@ class profilePicModal extends React.Component {
                                         type="file" ref={this.fileInput} id="fileButton" style={{ display: "none" }} />
                                     <div id="warningImg"></div>
                                     <br />
-                                    {/* <div className="progress">
+                                    <div className="progress">
                                         <div className="progress-bar progress-bar-striped progress-bar-animated bg-secondary"
-                                            role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                            style={{width: "0%"}}>0%</div>
-                                    </div> */}
+                                            role="progressbar" aria-valuenow={this.state.valuenow} aria-valuemin="0" aria-valuemax="100"
+                                            style={{width: this.state.width}}>{this.state.text}</div>
+                                    </div>
                                     <div id="uploadBttn"></div>
                                     <div id="warningImg"></div>
                                 </div>

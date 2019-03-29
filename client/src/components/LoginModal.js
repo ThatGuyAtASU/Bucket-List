@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {loginUser} from "./jwt";
 
 class LogIn extends React.Component {

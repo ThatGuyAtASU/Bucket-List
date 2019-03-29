@@ -27,32 +27,15 @@ class RecentItems extends React.Component {
 
     }
 
-    handleLikeBtn = item => {
-        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-        axios.put(`/api/items/likes/${item}`, { id: currentUserId }).then(data => {console.log(data);
-        window.location.reload();
-        }).catch(err => console.log(err));
-    }
+    
 
-    handleDislikeBtn = item => {
-        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-        axios.put(`/api/items/removelikes/${item}`, { id: currentUserId }).then(data => {console.log(data);
-        window.location.reload();
-        }).catch(err => console.log(err));
-    }
-
-    saveItem = item => {
-        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
-        axios.put(`/api/user/add/${currentUserId}`, {id: item}).then(res=>{console.log(res);
-        window.location.reload();
-        }).catch(err=>console.log(err));
-    }
+    
 
 
     render() {
         return <div className="container-fluid">
             <div className="row">
-                {this.state.recentItems.map(item => <CardBody saveItem={this.saveItem} handleDislikeBtn={this.handleDislikeBtn} handleLikeBtn={this.handleLikeBtn} user={this.state.userExist} {...item} />)}
+                {this.state.recentItems.map(item => <CardBody saveItem={this.saveItem} handleDislikeBtn={this.handleDislikeBtn} handleLikeBtn={this.handleLikeBtn} key={item.id} user={this.state.userExist} {...item}  />)}
             </div>
         </div>
     }
