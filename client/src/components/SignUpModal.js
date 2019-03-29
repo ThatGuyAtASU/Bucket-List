@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+
 import { registerUser, loginUser } from "./jwt";
 
 class SignUp extends React.Component {
@@ -109,7 +109,7 @@ class SignUp extends React.Component {
 
                             <button onClick={this.handleFormSubmit} type="submit" class="btn btn-primary col-12"><i className="fas fa-user-plus"></i> Sign Up</button>
                         </form>
-                        <p className="text-center">Already have an account? <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#loginBtn">Log In</a></p>
+                        <p className="text-center">Already have an account? <a href="" data-dismiss="modal" data-toggle="modal" data-target="#loginBtn">Log In</a></p>
                     </div>
                 </div>
             </div>

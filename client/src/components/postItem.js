@@ -7,7 +7,7 @@ import { setCurrentUser } from "./jwt";
 
 
 //Create Client instance by passing in API key
-var pexelsKey;
+// var pexelsKey;
 
 
 class postItem extends React.Component {
@@ -18,11 +18,11 @@ class postItem extends React.Component {
 
     }
 
-    componentWillMount(){
-        axios.get("/api/user/apiKeys").then(res=> pexelsKey=res.data.pexels);
-    }
+    // componentWillMount() {
+    //     axios.get("/api/user/apiKeys").then(res => pexelsKey = res.data.pexels);
+    // }
 
-    
+
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
@@ -37,35 +37,40 @@ class postItem extends React.Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        var pexelsClient = new PexelsAPI(pexelsKey);
-        let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
+        var pexelsClient;
+        axios.get("/api/user/env/getInfo").then(res => {
+        
+            pexelsClient = new PexelsAPI(res.data.pexels);
 
-        console.log(currentUserId);
-
-        if (this.state.title) {
-            let itemInfo = {
-                title: this.state.title,
-                image: ""
-            }
-            pexelsClient.search(itemInfo.title, 1, 1)
-                .then(function (result) {
-                    
-                    itemInfo.image = result.photos[0].src.medium;
-
-                    axios.post(`/api/items/${currentUserId}`, itemInfo).then(res => window.location.reload()).catch(err => console.log(err));
+            let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
 
 
-                }).
-                catch(function (e) {
-                    console.log(e);
+
+            if (this.state.title) {
+                let itemInfo = {
+                    title: this.state.title,
+                    image: ""
+                }
+                pexelsClient.search(itemInfo.title, 1, 1)
+                    .then(function (result) {
+
+                        itemInfo.image = result.photos[0].src.medium;
+
+                        axios.post(`/api/items/${currentUserId}`, itemInfo).then(res => window.location.reload()).catch(err => console.log(err));
+
+
+                    }).catch(function (e) {
+                        console.log(e);
+                    });
+
+
+                this.setState({
+                    title: ""
                 });
 
+            }
 
-            this.setState({
-                title: ""
-            });
-
-        }
+        });
 
 
     };
