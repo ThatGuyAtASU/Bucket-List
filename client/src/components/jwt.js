@@ -13,7 +13,7 @@ export const registerUser = (userData) => {
 
 // Login - Get User Token
 export const loginUser = userData => {
-  axios
+ return axios
     .post('/api/user/login', userData)
     .then(res => {
       // Save to localStorage
@@ -27,12 +27,12 @@ export const loginUser = userData => {
       // Set current user
      setCurrentUser(token);
 
+     
+
      window.location.replace("/user");
 
     })
-    .catch(err =>
-      console.log(err)
-    );
+    
 };
 
 // Set logged in user

@@ -1,9 +1,11 @@
 import React from "react";
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faThumbsUp} from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp as faThumbsDown} from '@fortawesome/free-regular-svg-icons'
 import { setCurrentUser } from "./jwt";
 if (localStorage.getItem('jwtToken')) {
     var user = setCurrentUser(localStorage.getItem('jwtToken')).payload;
-
 }
 
 
@@ -11,8 +13,6 @@ class CardBody extends React.Component {
     state = {
         likes: [],
         items: [],
-       
-
     }
     
 
@@ -62,7 +62,7 @@ class CardBody extends React.Component {
             <div className="card" style={{ width: "18rem" }}>
                 <img src={this.props.image} className="card-img-top" alt={this.props.title} />
                 <div className="card-body">
-                    <h5 className="card-title">{this.props.title} {this.props.user && !this.props.profile ? <button onClick={!this.state.likes.includes(user.id) ? () => this.handleLikeBtn(this.props._id) : () => this.handleDislikeBtn(this.props._id)} className="btn btn-sm btn-primary">{this.state.likes.includes(user.id) ? (<i className="fas fa-thumbs-up"></i>) : (<i className="far fa-thumbs-up"></i>)} {this.state.likes ? this.state.likes.length : 0}</button> : " "}</h5>
+                    <h5 className="card-title">{this.props.title} {this.props.user && !this.props.profile ? <button onClick={!this.state.likes.includes(user.id) ? () => this.handleLikeBtn(this.props._id) : () => this.handleDislikeBtn(this.props._id)} className="btn btn-sm btn-primary">{this.state.likes.includes(user.id) ? <FontAwesomeIcon icon={faThumbsDown} /> : <FontAwesomeIcon icon={faThumbsUp}/>} {this.state.likes ? this.state.likes.length : 0}</button> : " "}</h5>
                     {this.props.user && !this.props.profile && !this.state.items.includes(this.props._id) ? <button onClick={() => this.saveItem(this.props._id)} className="btn btn-primary">Add</button> : " "}
                     {this.props.user && this.props.profile ? <button onClick={() => this.props.removeItem(this.props._id)} className="btn btn-danger">Remove</button> : " "}
                     {this.props.user && !this.props.isDone.includes(user.id) && this.props.profile ? <button onClick={() => this.props.itemDone(this.props._id)} className="btn btn-success ml-3">Done</button> : " "}

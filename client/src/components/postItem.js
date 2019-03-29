@@ -6,8 +6,7 @@ import { setCurrentUser } from "./jwt";
 
 
 
-//Create Client instance by passing in API key
-// var pexelsKey;
+
 
 
 class postItem extends React.Component {
@@ -18,9 +17,7 @@ class postItem extends React.Component {
 
     }
 
-    // componentWillMount() {
-    //     axios.get("/api/user/apiKeys").then(res => pexelsKey = res.data.pexels);
-    // }
+    
 
 
 

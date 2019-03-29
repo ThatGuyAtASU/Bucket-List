@@ -11,8 +11,6 @@ class DeleteAccModal extends React.Component {
         let currentUserId = setCurrentUser(localStorage.getItem('jwtToken')).payload.id;
 
         axios.delete(`/api/user/deleteAccount/${currentUserId}`).then(res => {
-            
-            
             logoutUser();
         }).catch(err => console.log(err));
 
