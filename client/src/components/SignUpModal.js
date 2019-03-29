@@ -1,5 +1,5 @@
 import React from "react";
-
+import Alert from './alert';
 import { registerUser, loginUser } from "./jwt";
 
 class SignUp extends React.Component {
@@ -8,7 +8,8 @@ class SignUp extends React.Component {
         name: "",
         email: "",
         password: "",
-        confirm: ""
+        confirm: "",
+        errors: false
     }
 
     handleInputChange = event => {
@@ -24,7 +25,7 @@ class SignUp extends React.Component {
     handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
-        if (this.state.password === this.state.confirm && this.state.password.length > 5) {
+        if (this.state.password === this.state.confirm && this.state.password.length > 5 && this.state.name && this.state.email) {
             let newUser = {
                 name: this.state.name,
                 email: this.state.email,
@@ -46,7 +47,7 @@ class SignUp extends React.Component {
                     confirm: ""
                 });
 
-            }).catch(err => console.log(err));
+            }).catch(err => this.setState({errors: err.response.data}));
 
 
 
@@ -56,11 +57,20 @@ class SignUp extends React.Component {
 
 
         } else {
-            if (this.state.password !== this.state.confirm) {
-                alert("Password does not match.");
-            } else {
-                alert("Password should be 6 characters long at least.");
+            var feError;
+            if(!this.state.name){
+                feError= "Enter Your Name";
+            }else if(!this.state.email){
+                feError= "Enter Your Email";
+
+            }else if(this.state.password.length < 6){
+                feError= "Password should be at least 6 characters";
+            }else if(this.state.password !== this.state.confirm){
+                feError= "Passwords do not match";
+
             }
+
+            this.setState({errors: {errorFe: feError}});
         }
 
 
@@ -72,6 +82,7 @@ class SignUp extends React.Component {
                     <div className="modal-body">
                         <h4 className="text-center"><i className="fas fa-user-plus"></i> Sign Up</h4>
                         <hr />
+                        {this.state.errors ? Object.values(this.state.errors).map(error => <Alert message={error}/>)  : ""}
                         <form>
                             <div class="form-group">
                                 <label for="name">Full Name</label>

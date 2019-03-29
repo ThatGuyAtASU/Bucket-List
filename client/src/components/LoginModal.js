@@ -1,51 +1,56 @@
 import React from "react";
-import {loginUser} from "./jwt";
+import { loginUser } from "./jwt";
+import Alert from './alert';
 
 class LogIn extends React.Component {
-    
-    state={
+
+    state = {
         email: "",
-        password: ""
+        password: "",
+        errors: false
     }
 
     handleInputChange = event => {
         // Getting the value and name of the input which triggered the change
         const { name, value } = event.target;
-    
+
         // Updating the input's state
         this.setState({
-          [name]: value
+            [name]: value
         });
-      };
+    };
 
-      handleFormSubmit = event => {
+    handleFormSubmit = event => {
         // Preventing the default behavior of the form submit (which is to refresh the page)
         event.preventDefault();
 
-        if(this.state.email && this.state.password){
-            let userInfo= {
+        if (this.state.email && this.state.password) {
+            let userInfo = {
                 email: this.state.email,
                 password: this.state.password
 
             }
 
 
-            loginUser(userInfo);
+            loginUser(userInfo).catch(err => {
+                this.setState({errors: err.response.data});
+                localStorage.removeItem('jwtToken');
+
+            });
 
 
         }
 
-        
-    
-        // Alert the user their first and last name, clear `this.state.firstName` and `this.state.lastName`, clearing the inputs
-        
+
+
+
         this.setState({
-          email: "",
-          password: ""
+            email: "",
+            password: ""
         });
-      };
-    
-    
+    };
+
+
     render() {
 
         return <div className="modal" id="loginBtn" tabindex="-1" role="dialog">
@@ -54,23 +59,24 @@ class LogIn extends React.Component {
                     <div className="modal-body">
                         <h4 className="text-center"><i class="fas fa-sign-in-alt"></i> Login</h4>
                         <hr />
+                        {this.state.errors ? Object.values(this.state.errors).map(error => <Alert message={error}/>)  : ""}
                         <form>
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input 
-                                value={this.state.email}
-                                name="email"
-                                onChange={this.handleInputChange}
-                                type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                                <input
+                                    value={this.state.email}
+                                    name="email"
+                                    onChange={this.handleInputChange}
+                                    type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password</label>
-                                <input 
-                                value={this.state.password}
-                                name="password"
-                                onChange={this.handleInputChange}
-                                type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                <input
+                                    value={this.state.password}
+                                    name="password"
+                                    onChange={this.handleInputChange}
+                                    type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" />
                             </div>
 
 
